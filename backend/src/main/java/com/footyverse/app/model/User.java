@@ -1,10 +1,23 @@
 package com.footyverse.app.model;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
+
+
 import jakarta.persistence.*;
 
 @Entity
 public class User {
     
-    private Long id;
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
     private String username;
     private String email;
     private String password;
@@ -21,7 +34,7 @@ public class User {
     private String favoriteClub;
 
     // Getters and Setters
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
     
@@ -108,7 +121,9 @@ public class User {
         this.favoriteClub = favoriteClub;
     }
 
-    public User(Long id, String username, String email, String password, String role, String profilePicture, String bio, String location, String dateOfBirth, String createdAt, String updatedAt, String lastLogin, String favoritePlayer, String favoriteLeague, String favoriteClub) {
+    public User() {
+    }
+    public User(UUID id, String username, String email, String password, String role, String profilePicture, String bio, String location, String dateOfBirth, String createdAt, String updatedAt, String lastLogin, String favoritePlayer, String favoriteLeague, String favoriteClub) {
         this.id = id;
         this.username = username;
         this.email = email;
