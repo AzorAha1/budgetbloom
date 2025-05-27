@@ -3,10 +3,12 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
+import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.Email;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     
 
@@ -19,6 +21,9 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     private String username;
+
+    @NonNull
+    @Email 
     private String email;
     private String password;
     private String role;
