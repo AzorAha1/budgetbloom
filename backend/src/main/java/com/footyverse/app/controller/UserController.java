@@ -58,4 +58,13 @@ public class UserController {
         }
         return ResponseEntity.status(200).body("User Updated");
     }
+    // this method is to get user by email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<String> getuserbyemail(@PathVariable String email) {
+        User userfound = userService.getUserByEmail(email);
+        if (userfound == null) {
+            return ResponseEntity.status(404).body("User Not Found");
+        }
+        return ResponseEntity.status(200).body("User Found");
+    }
 }

@@ -62,5 +62,14 @@ public class UserService {
         }
         return false;
     }
+    public User getUserByEmail(String email) {
+       for (User user : userRepository.findAll()) {
+            if (user.getEmail().equals(email)) {
+                System.out.println("User found with email: " + email);
+                return user;
+            }
+        }
+        return null;
+    }
 
 }
