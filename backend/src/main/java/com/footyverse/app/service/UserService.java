@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.footyverse.app.repository.UserRepository;
@@ -15,6 +16,7 @@ import com.footyverse.app.model.User;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private UserDTO convUserDTO(User user) {
         return new UserDTO(
@@ -23,8 +25,9 @@ public class UserService {
     }
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     // get all users
     public List<UserDTO> getAllUsers() {
@@ -47,7 +50,8 @@ public class UserService {
                 return false; // User already exists
             }
         }
-        // encode password later
+        // encode password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
        }
