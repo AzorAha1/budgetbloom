@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.footyverse.app.dto.UserDTO;
 import com.footyverse.app.model.User;
 import com.footyverse.app.service.UserService;
 
@@ -28,7 +29,7 @@ public class UserController {
     // This method will handle the GET request to fetch all users
 
     @GetMapping
-    public List<User> getusers() {
+    public List<UserDTO> getusers() {
        return userService.getAllUsers();
     }
 
@@ -42,12 +43,12 @@ public class UserController {
     }
     // This method will handle the GET request to fetch a user by id
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserbyid(@PathVariable String id) {
-        User user = userService.getUserById(id);
-        if (user == null) {
+    public ResponseEntity<UserDTO> getUserbyid(@PathVariable String id) {
+        UserDTO userdto = userService.getUserDTOById(id);
+        if (userdto == null) {
             return ResponseEntity.status(404).body(null);
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userdto);
     }
     // This method will handle the PUT request to update a user
     @PutMapping("/{id}")
@@ -60,11 +61,11 @@ public class UserController {
     }
     // this method is to get user by email
     @GetMapping("/email/{email}")
-    public ResponseEntity<String> getuserbyemail(@PathVariable String email) {
-        User userfound = userService.getUserByEmail(email);
+    public ResponseEntity<UserDTO> getuserbyemail(@PathVariable String email) {
+        UserDTO userfound = userService.getUserByEmail(email);
         if (userfound == null) {
-            return ResponseEntity.status(404).body("User Not Found");
+            return ResponseEntity.status(404).body(null);
         }
-        return ResponseEntity.status(200).body("User Found");
+        return ResponseEntity.status(200).body(userfound);
     }
 }

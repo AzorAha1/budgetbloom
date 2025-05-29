@@ -1,11 +1,14 @@
 package com.footyverse.app.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.footyverse.app.repository.UserRepository;
+import com.footyverse.app.dto.UserDTO;
 import com.footyverse.app.model.User;
 
 
@@ -13,31 +16,45 @@ import com.footyverse.app.model.User;
 public class UserService {
     private final UserRepository userRepository;
 
+    private UserDTO convUserDTO(User user) {
+        return new UserDTO(
+            user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getProfilePicture(), user.getBio(), user.getLocation(), user.getDateOfBirth(), user.getFavoritePlayer(), user.getFavoriteLeague(), user.getFavoriteClub()
+            );
+    }
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
     // get all users
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+
+        List<User> allusers = userRepository.findAll();
+        List <UserDTO> allUserDTOs  = allusers.stream()
+            .map(this::convUserDTO)
+            .toList();
+        return allUserDTOs;
     }
 
     // add user
     public boolean addUser(User user) {
        if (user != null) 
        {
+        // Check if the user already exists
+        for (User existingUser : userRepository.findAll()) {
+            if (existingUser.getEmail().equals(user.getEmail())) {
+                System.out.println("User with email " + user.getEmail() + " already exists.");
+                return false; // User already exists
+            }
+        }
+        // encode password later
         userRepository.save(user);
         return true;
        }
        return false;
     }
-    public User getUserById(String id) {
-        for (User user : userRepository.findAll()) {
-            if (user.getId().toString().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+    public UserDTO getUserDTOById(String id) {
+        return userRepository.findById(UUID.fromString(id)).map(this::convUserDTO).orElse(null);
     }
     // update user
     public boolean updateUser(String id, User user) {
@@ -62,14 +79,8 @@ public class UserService {
         }
         return false;
     }
-    public User getUserByEmail(String email) {
-       for (User user : userRepository.findAll()) {
-            if (user.getEmail().equals(email)) {
-                System.out.println("User found with email: " + email);
-                return user;
-            }
-        }
-        return null;
+    public UserDTO getUserByEmail(String email) {
+       return userRepository.findByEmail(email).map(this::convUserDTO).orElse(null);
     }
 
 }
