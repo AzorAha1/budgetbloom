@@ -42,7 +42,7 @@ public class JwtUtil {
     }
 
     // create token
-    public String createtoken(Map<String, Object> claims, String subject) {
+    private String createtoken(Map<String, Object> claims, String subject) {
         // this method creates a JWT token with the given claims and subject
         return Jwts.builder()
             .setClaims(claims) // claims are additional information you want to include in the token
