@@ -52,4 +52,14 @@ public class JwtUtil {
             .setExpiration(new Date(System.currentTimeMillis() + expirationTime)) // sets the expiration date to the current time plus the expiration time
             .compact(); // this line compacts the token into a string format
     }
+    // validate token
+    public boolean validateToken(String token, UserDetails userDetails) {
+        // this method validates the jwt token 
+        String username = extractUsername(token);
+        // it checks if the token is valid by comparing the username in the token with the username in the userDetails object
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+    // extract username
+    
+
 }
