@@ -1,5 +1,6 @@
 package com.footyverse.app.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,6 +53,7 @@ public class UserService {
         }
         // encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setCreatedAt(LocalDateTime.now().toString());
         userRepository.save(user);
         return true;
        }
@@ -61,25 +63,24 @@ public class UserService {
         return userRepository.findById(UUID.fromString(id)).map(this::convUserDTO).orElse(null);
     }
     // update user
-    public boolean updateUser(String id, User user) {
-        for (User theuser : userRepository.findAll()) {
-            if (theuser.getId().toString().equals(id)) {
-                theuser.setUsername(user.getUsername());
-                theuser.setEmail(user.getEmail());
-                theuser.setRole(user.getRole());
-                theuser.setProfilePicture(user.getProfilePicture());
-                theuser.setBio(user.getBio());
-                theuser.setLocation(user.getLocation());
-                theuser.setDateOfBirth(user.getDateOfBirth());
-                theuser.setCreatedAt(user.getCreatedAt());
-                theuser.setUpdatedAt(user.getUpdatedAt());
-                theuser.setLastLogin(user.getLastLogin());
-                theuser.setFavoritePlayer(user.getFavoritePlayer());
-                theuser.setFavoriteLeague(user.getFavoriteLeague());
-                theuser.setFavoriteClub(user.getFavoriteClub());
-
-                return true;
-            }
+    public boolean updateUser(String id, User updateduser) {
+        Optional<User> userOptional = userRepository.findById(UUID.fromString(id));
+        if (userOptional.isPresent()) {
+            User existingUser = userOptional.get();
+            // Update fields
+            existingUser.setUsername(updateduser.getUsername());
+            existingUser.setEmail(updateduser.getEmail());
+            existingUser.setPassword(passwordEncoder.encode(updateduser.getPassword()));
+            existingUser.setRole(updateduser.getRole());
+            existingUser.setProfilePicture(updateduser.getProfilePicture());
+            existingUser.setBio(updateduser.getBio());
+            existingUser.setLocation(updateduser.getLocation());
+            existingUser.setDateOfBirth(updateduser.getDateOfBirth());
+            existingUser.setFavoritePlayer(updateduser.getFavoritePlayer());
+            existingUser.setFavoriteLeague(updateduser.getFavoriteLeague());
+            existingUser.setFavoriteClub(updateduser.getFavoriteClub());
+            userRepository.save(existingUser);
+            return true;
         }
         return false;
     }
@@ -87,4 +88,14 @@ public class UserService {
        return userRepository.findByEmail(email).map(this::convUserDTO).orElse(null);
     }
 
+    public User authenticateUser(String email, String password) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            User user = userOptional.get();
+            user.setLastLogin(LocalDateTime.now().toString());
+            userRepository.save(user);
+            return user;
+        }
+        return null;
+    }
 }
