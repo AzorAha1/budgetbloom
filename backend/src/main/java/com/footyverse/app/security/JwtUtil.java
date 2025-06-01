@@ -3,6 +3,7 @@ package com.footyverse.app.security;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -59,7 +61,48 @@ public class JwtUtil {
         // it checks if the token is valid by comparing the username in the token with the username in the userDetails object
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-    // extract username
-    
+    // extract Claim
+    public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+        // this method extracts a specific claim from the token using a function
+        // it uses the Jwts.parser() method to parse the token and extract the claims
+        Claims claims = extractAllClaims(token);
+        return claimResolver.apply(claims);
+        
+    }
+    // extract all claims
+    private Claims extractAllClaims(String token) {
+        // this method extracts all claims from the token
+        // it uses the Jwts.parser() method to parse the token and extract the claims
+        //  it returns a Claims object that contains all the claims in the token
+        // it uses the secret key to verify the signature of the token
+        // if the token is invalid or expired, it will throw an exception
+        return Jwts.parserBuilder() // creates a parser builder for parsing JWT tokens
+            .setSigningKey(secretKey) // sets the secret key to verify the signature
+            .build() // builds the parser, which is ready to parse tokens
+            .parseClaimsJws(token) // parses the token and returns a Jws object, this object contains the claims and the signature
+            .getBody(); // gets the body of the Jws object, which contains the claims, this gives a Claims object that contains all the claims in the token
+    }
+
+    // this is if you didnt have extractclaim which can return anytype that T is
+    // private String extractUsername(String token) {
+    //     Claims claims = extractAllClaims(token);
+    //     return claims.getSubject(); // extracts the subject from the claims, which is usually the username or user ID
+    // }
+
+    private String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    // extract expiration date
+    private Date extractExprDate(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    // check if token is expired
+    private boolean isTokenExpired(String token) {
+        // this method checks if the token is expired by comparing the current time with the expiration date
+        return extractExprDate(token).before(new Date(System.currentTimeMillis()));
+    }
+
 
 }
