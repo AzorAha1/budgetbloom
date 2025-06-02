@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -31,12 +32,13 @@ public class JwtUtil {
     // what is hs256? hs256 is a hashing algorithm used in JWT (JSON Web Tokens) for signing tokens. It ensures that the token is secure and cannot be tampered with.
     // 	Later, it will use the same key to verify that the token hasn’t been changed.
     // The `Keys.secretKeyFor(SignatureAlgorithm.HS256)` method generates a secure random key suitable for the HS256 algorithm.
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    // private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.secret}")
+    private String secret;
     // this field holds the expiration time for the JWT token
     // expiration time is set to 24 hours (in milliseconds)
     // it is calculate as 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
-    private long expirationTime = 8400000; // 24 hours in milliseconds
+    private static final long expirationTime = 86400000; // 24 hours in milliseconds
     // generate token
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -49,7 +51,7 @@ public class JwtUtil {
         return Jwts.builder()
             .setClaims(claims) // claims are additional information you want to include in the token
             .setSubject(subject) // this is the subject of the token, usually the username or user ID
-            .signWith(secretKey) // this line signs the token with the secret key
+            .signWith(getSigningkey()) // this line signs the token with the secret key
             .setIssuedAt(new Date(System.currentTimeMillis())) // sets the issued date to the current time
             .setExpiration(new Date(System.currentTimeMillis() + expirationTime)) // sets the expiration date to the current time plus the expiration time
             .compact(); // this line compacts the token into a string format
@@ -77,7 +79,7 @@ public class JwtUtil {
         // it uses the secret key to verify the signature of the token
         // if the token is invalid or expired, it will throw an exception
         return Jwts.parserBuilder() // creates a parser builder for parsing JWT tokens
-            .setSigningKey(secretKey) // sets the secret key to verify the signature
+            .setSigningKey(getSigningkey()) // sets the secret key to verify the signature
             .build() // builds the parser, which is ready to parse tokens
             .parseClaimsJws(token) // parses the token and returns a Jws object, this object contains the claims and the signature
             .getBody(); // gets the body of the Jws object, which contains the claims, this gives a Claims object that contains all the claims in the token
@@ -103,6 +105,9 @@ public class JwtUtil {
         // this method checks if the token is expired by comparing the current time with the expiration date
         return extractExprDate(token).before(new Date(System.currentTimeMillis()));
     }
-
+    //get signing key
+    private SecretKey getSigningkey() {
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
 }
