@@ -1,4 +1,4 @@
-package com.footyverse.app.dto;
+package com.budgetbloom.app.dto;
 
 public class AuthResponse {
     private String token;

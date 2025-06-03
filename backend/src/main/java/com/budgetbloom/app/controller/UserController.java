@@ -1,4 +1,4 @@
-package com.footyverse.app.controller;
+package com.budgetbloom.app.controller;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.footyverse.app.dto.UserDTO;
-import com.footyverse.app.model.User;
-import com.footyverse.app.service.UserService;
+import com.budgetbloom.app.dto.UserDTO;
+import com.budgetbloom.app.model.User;
+import com.budgetbloom.app.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")

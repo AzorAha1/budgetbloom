@@ -1,7 +1,7 @@
-package com.footyverse.app.repository;
+package com.budgetbloom.app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.footyverse.app.model.User;
+import com.budgetbloom.app.model.User;
 
 import java.util.Optional;
 import java.util.UUID;

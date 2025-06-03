@@ -1,4 +1,4 @@
-package com.footyverse.app.service;
+package com.budgetbloom.app.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.footyverse.app.repository.UserRepository;
-import com.footyverse.app.dto.UserDTO;
-import com.footyverse.app.model.User;
+import com.budgetbloom.app.repository.UserRepository;
+import com.budgetbloom.app.dto.UserDTO;
+import com.budgetbloom.app.model.User;
 
 
 @Service

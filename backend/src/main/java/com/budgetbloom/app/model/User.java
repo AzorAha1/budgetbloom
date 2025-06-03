@@ -1,4 +1,4 @@
-package com.footyverse.app.model;
+package com.budgetbloom.app.model;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;

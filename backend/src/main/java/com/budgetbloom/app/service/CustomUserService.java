@@ -1,12 +1,12 @@
-package com.footyverse.app.service;
+package com.budgetbloom.app.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.footyverse.app.model.User;
-import com.footyverse.app.repository.UserRepository;
+import com.budgetbloom.app.model.User;
+import com.budgetbloom.app.repository.UserRepository;
 
 import java.util.Optional;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.footyverse.app;
+package com.budgetbloom.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
