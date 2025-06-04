@@ -31,13 +31,12 @@ public class User {
     private String bio;
     private String location;
     private String dateOfBirth;
+    private String plaidAccessToken;
+    private Double currentAccountbalance;
     private String createdAt;
     private String updatedAt;
     private String lastLogin;
-    private String favoritePlayer;
-    private String favoriteLeague;
-    private String favoriteClub;
-
+    
     // Getters and Setters
     public UUID getId() {
         return id;
@@ -109,25 +108,19 @@ public class User {
     public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
-    public String getFavoritePlayer() {
-        return favoritePlayer;
+    public String getPlaidAccessToken() {
+        return plaidAccessToken;
     }
-    public void setFavoritePlayer(String favoritePlayer) {
-        this.favoritePlayer = favoritePlayer;
+    public void setPlaidAccessToken(String plaidAccessToken) {
+        this.plaidAccessToken = plaidAccessToken;
     }
-    public String getFavoriteLeague() {
-        return favoriteLeague;
+    public Double getCurrentAccountbalance() {
+        return currentAccountbalance;
     }
-    public void setFavoriteLeague(String favoriteLeague) {
-        this.favoriteLeague = favoriteLeague;
+    public void setCurrentAccountbalance(Double currentAccountbalance) {
+        this.currentAccountbalance = currentAccountbalance;
     }
-    public String getFavoriteClub() {
-        return favoriteClub;
-    }
-    public void setFavoriteClub(String favoriteClub) {
-        this.favoriteClub = favoriteClub;
-    }
-
+   
     public User() {
     }
     public User(UUID id, String username, String email, String password, String role, String profilePicture, String bio, String location, String dateOfBirth, String createdAt, String updatedAt, String lastLogin, String favoritePlayer, String favoriteLeague, String favoriteClub) {
@@ -143,9 +136,8 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.lastLogin = lastLogin;
-        this.favoritePlayer = favoritePlayer;
-        this.favoriteLeague = favoriteLeague;
-        this.favoriteClub = favoriteClub;
+        this.plaidAccessToken = null; // Initialize to null or empty string
+        this.currentAccountbalance = null; // Initialize to null or empty string
     }
 
 }

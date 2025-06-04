@@ -21,7 +21,8 @@ public class UserService {
 
     private UserDTO convUserDTO(User user) {
         return new UserDTO(
-            user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getProfilePicture(), user.getBio(), user.getLocation(), user.getDateOfBirth(), user.getFavoritePlayer(), user.getFavoriteLeague(), user.getFavoriteClub()
+            user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getProfilePicture(), user.getBio(), user.getLocation(), user.getDateOfBirth(),
+            user.getCurrentAccountbalance()
             );
     }
 
@@ -76,9 +77,6 @@ public class UserService {
             existingUser.setBio(updateduser.getBio());
             existingUser.setLocation(updateduser.getLocation());
             existingUser.setDateOfBirth(updateduser.getDateOfBirth());
-            existingUser.setFavoritePlayer(updateduser.getFavoritePlayer());
-            existingUser.setFavoriteLeague(updateduser.getFavoriteLeague());
-            existingUser.setFavoriteClub(updateduser.getFavoriteClub());
             userRepository.save(existingUser);
             return true;
         }

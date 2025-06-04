@@ -14,11 +14,9 @@ public class UserDTO {
     private String bio;
     private String location;
     private String dateOfBirth;
-    private String favoritePlayer;
-    private String favoriteLeague;
-    private String favoriteClub;
+    private Double currentAccountbalance; 
 
-    public UserDTO(UUID id, String username, String email, String role, String profilePicture, String bio, String location, String dateOfBirth, String favoritePlayer, String favoriteLeague, String favoriteClub) {
+    public UserDTO(UUID id, String username, String email, String role, String profilePicture, String bio, String location, String dateOfBirth, Double currentAccountbalance) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -27,9 +25,8 @@ public class UserDTO {
         this.bio = bio;
         this.location = location;
         this.dateOfBirth = dateOfBirth;
-        this.favoritePlayer = favoritePlayer;
-        this.favoriteLeague = favoriteLeague;
-        this.favoriteClub = favoriteClub;
+        this.currentAccountbalance = currentAccountbalance;
+
 
     }
     // getters and setters
@@ -39,7 +36,7 @@ public class UserDTO {
     public void setId(UUID id) {
         this.id = id;
     }
-    public String getusername(){
+    public String getUsername(){
         return username;
     }
     public void setUsername(String username) {
@@ -81,22 +78,12 @@ public class UserDTO {
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    public String getFavoritePlayer() {
-        return favoritePlayer;
+
+    public Double getCurrentAccountBalance() {
+        return currentAccountbalance;
     }
-    public void setFavoritePlayer(String favoritePlayer) {
-        this.favoritePlayer = favoritePlayer;
+    public void setCurrentAccountbalance(Double currentAccountbalance) {
+        this.currentAccountbalance = currentAccountbalance;
     }
-    public String getFavoriteLeague() {
-        return favoriteLeague;
-    }
-    public void setFavoriteLeague(String favoriteLeague) {
-        this.favoriteLeague = favoriteLeague;
-    }
-    public String getFavoriteClub() {
-        return favoriteClub;
-    }
-    public void setFavoriteClub(String favoriteClub) {
-        this.favoriteClub = favoriteClub;
-    }
+  
 }
