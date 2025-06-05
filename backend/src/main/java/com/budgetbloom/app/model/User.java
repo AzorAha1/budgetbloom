@@ -1,4 +1,6 @@
 package com.budgetbloom.app.model;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -32,10 +34,15 @@ public class User {
     private String location;
     private String dateOfBirth;
     private String plaidAccessToken;
-    private Double currentAccountbalance;
+    private Double currentAccountBalance;
     private String createdAt;
     private String updatedAt;
     private String lastLogin;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transaction> transactions = new ArrayList<>();
+
+    
     
     // Getters and Setters
     public UUID getId() {
@@ -115,10 +122,16 @@ public class User {
         this.plaidAccessToken = plaidAccessToken;
     }
     public Double getCurrentAccountbalance() {
-        return currentAccountbalance;
+        return currentAccountBalance;
     }
     public void setCurrentAccountbalance(Double currentAccountbalance) {
-        this.currentAccountbalance = currentAccountbalance;
+        this.currentAccountBalance = currentAccountbalance;
+    }
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
    
     public User() {
@@ -137,7 +150,8 @@ public class User {
         this.updatedAt = updatedAt;
         this.lastLogin = lastLogin;
         this.plaidAccessToken = null; // Initialize to null or empty string
-        this.currentAccountbalance = null; // Initialize to null or empty string
+        this.currentAccountBalance = null; // Initialize to null or empty string
+
     }
 
 }
