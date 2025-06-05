@@ -1,6 +1,7 @@
 package com.budgetbloom.app.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,23 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllTransactions'");
+        List <Transaction> allTransactions = transactionRepository.findAll();
+        return allTransactions;
+    }
+
+    public List<Transaction> getTransactionsByUserId(String userId) {
+        UUID uuid = UUID.fromString(userId);
+        List<Transaction> userTransactions = transactionRepository.findByUserId(uuid);
+        return userTransactions;
+
+    }
+
+    public boolean addTransaction(Transaction transaction) {
+        if (transaction != null) {
+            transactionRepository.save(transaction);
+            return true; // Transaction added successfully
+        }
+        return false; // Transaction is null, not added
     }
 
     
