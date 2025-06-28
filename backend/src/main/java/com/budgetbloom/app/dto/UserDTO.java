@@ -1,5 +1,6 @@
 package com.budgetbloom.app.dto;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import jakarta.persistence.Id;
@@ -14,9 +15,9 @@ public class UserDTO {
     private String bio;
     private String location;
     private String dateOfBirth;
-    private Double currentAccountbalance; 
+    private BigDecimal currentAccountbalance; 
 
-    public UserDTO(UUID id, String username, String email, String role, String profilePicture, String bio, String location, String dateOfBirth, Double currentAccountbalance) {
+    public UserDTO(UUID id, String username, String email, String role, String profilePicture, String bio, String location, String dateOfBirth, BigDecimal currentAccountbalance) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -79,10 +80,10 @@ public class UserDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Double getCurrentAccountBalance() {
+    public BigDecimal getCurrentAccountBalance() {
         return currentAccountbalance;
     }
-    public void setCurrentAccountbalance(Double currentAccountbalance) {
+    public void setCurrentAccountbalance(BigDecimal currentAccountbalance) {
         this.currentAccountbalance = currentAccountbalance;
     }
   
