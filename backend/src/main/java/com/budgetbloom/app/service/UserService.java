@@ -46,12 +46,10 @@ public class UserService {
        if (user != null) 
        {
         // Check if the user already exists
-        for (User existingUser : userRepository.findAll()) {
-            if (existingUser.getEmail().equals(user.getEmail())) {
-                System.out.println("User with email " + user.getEmail() + " already exists.");
-                return false; // User already exists
-            }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return false; // User with this email already exists
         }
+        
         // encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now().toString());
