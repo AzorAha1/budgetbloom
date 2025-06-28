@@ -1,5 +1,6 @@
 package com.budgetbloom.app.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id; // id is gotten from plaid id
     private String merchant;
+    private BigDecimal amount; // Amount can be stored as BigDecimal for precision
     private LocalDate date;
     private String category;
     private boolean isPending;
@@ -25,13 +27,14 @@ public class Transaction {
 
     public Transaction() {}
 
-    public Transaction(String id, String merchant, LocalDate date, String category, boolean isPending, User user) {
+    public Transaction(String id, String merchant, LocalDate date, String category, boolean isPending, User user, BigDecimal amount) {
         this.id = id;
         this.merchant = merchant;
         this.date = date;
         this.category = category;
         this.isPending = isPending;
         this.user = user;
+        this.amount = amount;
     }
     // Getters and Setters
     public String getId() {
@@ -69,5 +72,11 @@ public class Transaction {
     }
     public void setUser(User user) {
         this.user = user;
+    }
+    public BigDecimal getAmount() {
+        return amount;
+    }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }
