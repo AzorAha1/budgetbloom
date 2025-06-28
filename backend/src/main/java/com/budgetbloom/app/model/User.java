@@ -1,4 +1,5 @@
 package com.budgetbloom.app.model;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,10 +35,11 @@ public class User {
     private String location;
     private String dateOfBirth;
     private String plaidAccessToken;
-    private Double currentAccountBalance;
+    private BigDecimal currentAccountBalance;
     private String createdAt;
     private String updatedAt;
     private String lastLogin;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
@@ -121,10 +123,10 @@ public class User {
     public void setPlaidAccessToken(String plaidAccessToken) {
         this.plaidAccessToken = plaidAccessToken;
     }
-    public Double getCurrentAccountbalance() {
+    public BigDecimal getCurrentAccountbalance() {
         return currentAccountBalance;
     }
-    public void setCurrentAccountbalance(Double currentAccountbalance) {
+    public void setCurrentAccountbalance(BigDecimal currentAccountbalance) {
         this.currentAccountBalance = currentAccountbalance;
     }
     public List<Transaction> getTransactions() {

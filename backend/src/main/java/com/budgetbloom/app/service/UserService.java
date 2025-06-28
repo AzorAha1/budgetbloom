@@ -1,5 +1,6 @@
 package com.budgetbloom.app.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.budgetbloom.app.repository.UserRepository;
 import com.budgetbloom.app.dto.UserDTO;
@@ -57,6 +59,17 @@ public class UserService {
         return true;
        }
        return false;
+    }
+
+    // update user accountbalance
+    public void updateAccountbalance(String id, BigDecimal amount) {
+        UUID user_id = UUID.fromString(id);
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+        // Update the user's account balance
+        BigDecimal currentBalance = user.getCurrentAccountbalance() != null ? user.getCurrentAccountbalance() : BigDecimal.ZERO;
+        user.setCurrentAccountbalance(currentBalance.add(amount));
+        userRepository.save(user);
+        
     }
     public UserDTO getUserDTOById(String id) {
         return userRepository.findById(UUID.fromString(id)).map(this::convUserDTO).orElse(null);
