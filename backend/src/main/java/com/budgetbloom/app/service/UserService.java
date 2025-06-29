@@ -21,7 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private UserDTO convUserDTO(User user) {
+    public UserDTO convUserDTO(User user) {
         return new UserDTO(
             user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getProfilePicture(), user.getBio(), user.getLocation(), user.getDateOfBirth(),
             user.getCurrentAccountbalance()
