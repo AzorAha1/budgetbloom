@@ -12,6 +12,7 @@ import com.budgetbloom.app.dto.UserDTO;
 import com.budgetbloom.app.model.User;
 import com.budgetbloom.app.security.JwtUtil;
 import com.budgetbloom.app.service.AuthService;
+import com.budgetbloom.app.service.UserService;
 
 import jakarta.validation.constraints.Email;
 
@@ -62,11 +63,8 @@ public class AuthController {
         authenticatedUser.setLastLogin(LocalDate.now().toString());
         
         UserDTO userDTO = userService.convUserDTO(authenticatedUser);
-        // this.token = token;
-        // this.user = user;
-        // this.message = message;
-
-        // AuthResponse reponse = authRespons
+        return ResponseEntity.ok(new AuthResponse(loggedintoken, userDTO, "Login successful"));
+    
     } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during authentication");
     }
